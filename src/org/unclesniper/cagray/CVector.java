@@ -1,5 +1,8 @@
 package org.unclesniper.cagray;
 
+import java.io.Writer;
+import java.io.IOException;
+
 public class CVector implements Matrix {
 
 	private final double[] components;
@@ -33,6 +36,14 @@ public class CVector implements Matrix {
 		if(index >= components.length)
 			throw new IllegalArgumentException("Illegal vector index: " + index + " >= " + components.length);
 		return components[index];
+	}
+
+	public void setComponent(int index, double value) {
+		if(index < 0)
+			throw new IllegalArgumentException("Illegal vector index: " + index + " < 0");
+		if(index >= components.length)
+			throw new IllegalArgumentException("Illegal vector index: " + index + " >= " + components.length);
+		components[index] = value;
 	}
 
 	public boolean isColumn() {
@@ -72,8 +83,41 @@ public class CVector implements Matrix {
 	}
 
 	@Override
+	public void setComponent(int row, int column, double value) {
+		if(row < 0)
+			throw new IllegalArgumentException("Illegal row index: " + row + " < 0");
+		if(column < 0)
+			throw new IllegalArgumentException("Illegal column index: " + column + " < 0");
+		if(this.column) {
+			if(row >= components.length)
+				throw new IllegalArgumentException("Illegal row index: " + row + " >= " + components.length);
+			if(column > 0)
+				throw new IllegalArgumentException("Illegal column index: " + column + " > 0");
+			components[row] = value;
+		}
+		else {
+			if(row > 0)
+				throw new IllegalArgumentException("Illegal row index: " + row + " > 0");
+			if(column >= components.length)
+				throw new IllegalArgumentException("Illegal column index: " + column + " >= " + components.length);
+			components[column] = value;
+		}
+	}
+
+	@Override
 	public CVector transpose() {
 		return new CVector(components, !column);
+	}
+
+	@Override
+	public void printTo(Writer out, int level) throws IOException {
+		out.write('[');
+		for(int i = 0; i < components.length; ++i) {
+			if(i > 0)
+				out.write(", ");
+			out.write(String.valueOf(components[i]));
+		}
+		out.write(']');
 	}
 
 }

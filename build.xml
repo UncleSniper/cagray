@@ -13,6 +13,9 @@
 	<property name="api.doc.visibility" value="private"/>
 	<property name="javadoc.jre.package.list" location="jre8.packages"/>
 	<property name="javadoc.jre.url" value="http://docs.oracle.com/javase/8/docs/api/"/>
+	<property name="testsrc" location="test"/>
+	<property name="testbin" location="testbin"/>
+	<property name="testreports" location="reports"/>
 
 	<path id="build.classpath">
 		<fileset dir="${lib}" includes="**/*.jar"/>
@@ -23,6 +26,7 @@
 		<mkdir dir="${bin}"/>
 		<mkdir dir="${dist}/lib"/>
 		<mkdir dir="${doc}/api"/>
+		<mkdir dir="${testbin}"/>
 	</target>
 
 	<target name="compile" depends="init" description="compile the source">
@@ -43,6 +47,8 @@
 		<copy todir="${dist}/lib">
 			<fileset dir="${lib}">
 				<filename name="**/*.jar"/>
+				<exclude name="junit*.jar"/>
+				<exclude name="hamcrest*.jar"/>
 			</fileset>
 		</copy>
 	</target>
@@ -54,10 +60,33 @@
 		</javadoc>
 	</target>
 
+	<target name="test" depends="compile" description="run testsuite">
+		<javac srcdir="${testsrc}" destdir="${testbin}" debug="on" includeantruntime="no"
+				classpathref="build.classpath">
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+		</javac>
+		<junit printsummary="withOutAndErr" haltonfailure="on" includeantruntime="false">
+			<classpath>
+				<fileset dir="${lib}" includes="**/*.jar"/>
+				<pathelement location="${bin}"/>
+				<pathelement location="${testbin}"/>
+			</classpath>
+			<batchtest todir="${testreports}" haltonfailure="yes">
+				<fileset dir="${testsrc}">
+					<include name="**/*Tests.java"/>
+				</fileset>
+			</batchtest>
+			<formatter type="plain" usefile="false"/>
+		</junit>
+	</target>
+
 	<target name="clean" description="clean up">
 		<delete dir="${bin}"/>
 		<delete dir="${dist}"/>
 		<delete dir="${doc}/api"/>
+		<delete dir="${testbin}"/>
+		<delete dir="${testreports}"/>
 	</target>
 
 </project>
