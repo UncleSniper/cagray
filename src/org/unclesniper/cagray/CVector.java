@@ -3,7 +3,7 @@ package org.unclesniper.cagray;
 import java.io.Writer;
 import java.io.IOException;
 
-public class CVector implements Matrix {
+public class CVector extends AbstractMatrix {
 
 	private final double[] components;
 
@@ -48,6 +48,14 @@ public class CVector implements Matrix {
 
 	public boolean isColumn() {
 		return column;
+	}
+
+	public double dot(CVector other) throws MathException {
+		return VectorOps.dot(this, other);
+	}
+
+	public double getLength() {
+		return VectorOps.length(this);
 	}
 
 	@Override
@@ -118,6 +126,15 @@ public class CVector implements Matrix {
 			out.write(String.valueOf(components[i]));
 		}
 		out.write(']');
+	}
+
+	@Override
+	public String getTypeName() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(column ? "ColumnVector(" : "RowVector(");
+		builder.append(String.valueOf(components.length));
+		builder.append(')');
+		return builder.toString();
 	}
 
 }

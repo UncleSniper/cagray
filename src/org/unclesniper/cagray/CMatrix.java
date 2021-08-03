@@ -4,7 +4,7 @@ import java.io.Writer;
 import java.io.IOException;
 import org.unclesniper.cagray.util.PrintUtils;
 
-public class CMatrix implements Matrix {
+public class CMatrix extends AbstractMatrix {
 
 	private final double[] components;
 
@@ -108,6 +108,17 @@ public class CMatrix implements Matrix {
 			}
 		}
 		out.write("]]");
+	}
+
+	@Override
+	public String getTypeName() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Matrix(");
+		builder.append(String.valueOf(components.length / columns));
+		builder.append(", ");
+		builder.append(String.valueOf(columns));
+		builder.append(')');
+		return builder.toString();
 	}
 
 }
