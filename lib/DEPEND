@@ -1,1 +1,2 @@
-This component does not have any dependencies.
+Place the follwing JARs into this directory:
+- org.unclesniper.util.jar (https://github.com/UncleSniper/jusutil)

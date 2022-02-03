@@ -1,5 +1,8 @@
 package org.unclesniper.cagray;
 
+import static org.unclesniper.util.ArgUtils.notNull;
+import static org.unclesniper.util.ArgUtils.notNegative;
+
 public class MismatchedDimensionsException extends MathException {
 
 	private final Axis leftAxis;
@@ -14,18 +17,10 @@ public class MismatchedDimensionsException extends MathException {
 			Axis rightAxis, int rightDimension) {
 		super(MismatchedDimensionsException.makeMessage(message, leftAxis, leftDimension,
 				rightAxis, rightDimension));
-		if(leftAxis == null)
-			throw new IllegalArgumentException("Left operand axis cannot be null");
-		if(leftDimension < 0)
-			throw new IllegalArgumentException("Left operand dimension cannot be negative: " + leftDimension);
-		if(rightAxis == null)
-			throw new IllegalArgumentException("Right operand axis cannot be null");
-		if(rightDimension < 0)
-			throw new IllegalArgumentException("Right operand dimension cannot be negative: " + leftDimension);
-		this.leftAxis = leftAxis;
-		this.leftDimension = leftDimension;
-		this.rightAxis = rightAxis;
-		this.rightDimension = rightDimension;
+		this.leftAxis = notNull(leftAxis, "leftAxis");
+		this.leftDimension = notNegative(leftDimension, "leftDimension");
+		this.rightAxis = notNull(rightAxis, "rightAxis");
+		this.rightDimension = notNegative(rightDimension, "rightDimension");
 	}
 
 	private static String makeMessage(String message, Axis leftAxis, int leftDimension,

@@ -2,30 +2,28 @@ package org.unclesniper.cagray.util;
 
 import java.io.Writer;
 import java.io.IOException;
+import org.unclesniper.util.SystemProperties;
+
+import static org.unclesniper.util.ArgUtils.notNull;
+import static org.unclesniper.util.ArgUtils.notNegative;
 
 public class PrintUtils {
 
 	public static final String INDENT = "    ";
 
-	public static final String EOL = System.getProperty("line.separator");
-
-	private static final char[] EOL_CHARS = EOL.toCharArray();
+	private static final char[] EOL_CHARS = SystemProperties.LINE_SEPARATOR.toCharArray();
 
 	private PrintUtils() {}
 
 	public static void indent(Writer out, int level) throws IOException {
-		if(out == null)
-			throw new IllegalArgumentException("Output writer cannot be null");
-		if(level < 0)
-			throw new IllegalArgumentException("Cannot indent a negative number of levels: " + level);
+		notNull(out, "out");
+		notNegative(level, "level");
 		for(; level > 0; --level)
 			out.write(PrintUtils.INDENT);
 	}
 
 	public static void eol(Writer out) throws IOException {
-		if(out == null)
-			throw new IllegalArgumentException("Output writer cannot be null");
-		out.write(PrintUtils.EOL);
+		notNull(out, "out").write(SystemProperties.LINE_SEPARATOR);
 	}
 
 	public static void eolIndent(Writer out, int level) throws IOException {

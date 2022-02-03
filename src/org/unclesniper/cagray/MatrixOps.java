@@ -1,5 +1,7 @@
 package org.unclesniper.cagray;
 
+import static org.unclesniper.util.ArgUtils.notNull;
+
 public class MatrixOps {
 
 	private static final double NEAR_DEGENERATE_TOLERANCE = 1.0E-7;
@@ -7,12 +9,8 @@ public class MatrixOps {
 	private MatrixOps() {}
 
 	public static Matrix mul(Matrix lhs, Matrix rhs) throws MismatchedDimensionsException {
-		if(lhs == null)
-			throw new IllegalArgumentException("Left-hand matrix cannot be null");
-		if(rhs == null)
-			throw new IllegalArgumentException("Right-hand matrix cannot be null");
-		int lrows = lhs.getRows(), lcols = lhs.getColumns();
-		int rrows = rhs.getRows(), rcols = rhs.getColumns();
+		int lrows = notNull(lhs, "lhs").getRows(), lcols = lhs.getColumns();
+		int rrows = notNull(rhs, "rhs").getRows(), rcols = rhs.getColumns();
 		if(lcols != rrows)
 			throw new MismatchedDimensionsException("Cannot multiply " + lhs.getTypeName() + " with "
 					+ rhs.getTypeName(), Axis.COLUMN, lcols, Axis.ROW, rrows);
@@ -29,12 +27,8 @@ public class MatrixOps {
 	}
 
 	public static Matrix add(Matrix lhs, Matrix rhs) throws MismatchedDimensionsException {
-		if(lhs == null)
-			throw new IllegalArgumentException("Left-hand matrix cannot be null");
-		if(rhs == null)
-			throw new IllegalArgumentException("Right-hand matrix cannot be null");
-		int lrows = lhs.getRows(), lcols = lhs.getColumns();
-		int rrows = rhs.getRows(), rcols = rhs.getColumns();
+		int lrows = notNull(lhs, "lhs").getRows(), lcols = lhs.getColumns();
+		int rrows = notNull(rhs, "rhs").getRows(), rcols = rhs.getColumns();
 		if(lrows != rrows)
 			throw new MismatchedDimensionsException("Cannot add " + lhs.getTypeName() + " to "
 					+ rhs.getTypeName(), Axis.ROW, lrows, Axis.ROW, rrows);
@@ -50,12 +44,8 @@ public class MatrixOps {
 	}
 
 	public static Matrix sub(Matrix lhs, Matrix rhs) throws MismatchedDimensionsException {
-		if(lhs == null)
-			throw new IllegalArgumentException("Left-hand matrix cannot be null");
-		if(rhs == null)
-			throw new IllegalArgumentException("Right-hand matrix cannot be null");
-		int lrows = lhs.getRows(), lcols = lhs.getColumns();
-		int rrows = rhs.getRows(), rcols = rhs.getColumns();
+		int lrows = notNull(lhs, "lhs").getRows(), lcols = lhs.getColumns();
+		int rrows = notNull(rhs, "rhs").getRows(), rcols = rhs.getColumns();
 		if(lrows != rrows)
 			throw new MismatchedDimensionsException("Cannot substract " + rhs.getTypeName() + " from "
 					+ lhs.getTypeName(), Axis.ROW, lrows, Axis.ROW, rrows);
@@ -139,9 +129,7 @@ public class MatrixOps {
 	}
 
 	public static Matrix inv(Matrix matrix) throws NonSquareMatrixException, DegenerateMatrixException {
-		if(matrix == null)
-			throw new IllegalArgumentException("Matrix cannot be null");
-		int rows = matrix.getRows();
+		int rows = notNull(matrix, "matrix").getRows();
 		String failMessage = "Cannot invert " + matrix.getTypeName();
 		if(rows != matrix.getColumns() || rows == 0)
 			throw new NonSquareMatrixException(failMessage);
@@ -152,9 +140,7 @@ public class MatrixOps {
 	}
 
 	public static double det(Matrix matrix) throws NonSquareMatrixException, DegenerateMatrixException {
-		if(matrix == null)
-			throw new IllegalArgumentException("Matrix cannot be null");
-		int rows = matrix.getRows();
+		int rows = notNull(matrix, "matrix").getRows();
 		String failMessage = "Cannot compute determinant of " + matrix.getTypeName();
 		if(rows != matrix.getColumns() || rows == 0)
 			throw new NonSquareMatrixException(failMessage);
