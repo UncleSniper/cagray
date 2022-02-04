@@ -25,6 +25,11 @@ public abstract class AbstractMatrix extends AbstractCObject implements Matrix {
 	}
 
 	@Override
+	public Matrix neg() {
+		return MatrixOps.neg(this);
+	}
+
+	@Override
 	public double det() throws MathException {
 		return MatrixOps.det(this);
 	}

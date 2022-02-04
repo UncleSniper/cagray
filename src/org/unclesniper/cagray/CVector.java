@@ -52,12 +52,29 @@ public class CVector extends AbstractMatrix {
 		return column;
 	}
 
+	public Axis getAxis() {
+		return column ? Axis.COLUMN : Axis.ROW;
+	}
+
 	public double dot(CVector other) throws MathException {
 		return VectorOps.dot(this, other);
 	}
 
 	public double getLength() {
 		return VectorOps.length(this);
+	}
+
+	public CVector add(CVector other) throws MathException {
+		return VectorOps.add(this, other);
+	}
+
+	public CVector sub(CVector other) throws MathException {
+		return VectorOps.sub(this, other);
+	}
+
+	@Override
+	public CVector neg() {
+		return VectorOps.neg(this);
 	}
 
 	@Override

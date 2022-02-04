@@ -20,6 +20,8 @@ public interface Matrix extends CObject {
 
 	Matrix inv() throws MathException;
 
+	Matrix neg();
+
 	double det() throws MathException;
 
 	boolean isZero();

@@ -3,6 +3,7 @@ package org.unclesniper.cagray;
 import java.io.Writer;
 import java.io.IOException;
 import java.io.StringWriter;
+import org.unclesniper.util.OMGWereDoomedError;
 import org.unclesniper.cagray.util.ExceptionUtils;
 
 public interface CObject {
@@ -17,7 +18,7 @@ public interface CObject {
 			printTo(out, level);
 		}
 		catch(IOException ioe) {
-			throw new Doom("Encountered IOException while printing to StringWriter"
+			throw new OMGWereDoomedError("Encountered IOException while printing to StringWriter"
 					+ ExceptionUtils.chainMessage(ioe), ioe);
 		}
 		return out.toString();

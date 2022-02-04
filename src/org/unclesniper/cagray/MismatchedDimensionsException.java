@@ -23,6 +23,11 @@ public class MismatchedDimensionsException extends MathException {
 		this.rightDimension = notNegative(rightDimension, "rightDimension");
 	}
 
+	public MismatchedDimensionsException(String message, CVector leftVector, CVector rightVector) {
+		this(message, notNull(leftVector, "leftVector").getAxis(), leftVector.getDimension(),
+				notNull(rightVector, "rightVector").getAxis(), rightVector.getDimension());
+	}
+
 	private static String makeMessage(String message, Axis leftAxis, int leftDimension,
 			Axis rightAxis, int rightDimension) {
 		if(leftAxis == null || rightAxis == null)

@@ -47,10 +47,10 @@ public class MatrixOps {
 		int lrows = notNull(lhs, "lhs").getRows(), lcols = lhs.getColumns();
 		int rrows = notNull(rhs, "rhs").getRows(), rcols = rhs.getColumns();
 		if(lrows != rrows)
-			throw new MismatchedDimensionsException("Cannot substract " + rhs.getTypeName() + " from "
+			throw new MismatchedDimensionsException("Cannot subtract " + rhs.getTypeName() + " from "
 					+ lhs.getTypeName(), Axis.ROW, lrows, Axis.ROW, rrows);
 		if(lcols != rcols)
-			throw new MismatchedDimensionsException("Cannot substract " + rhs.getTypeName() + " from "
+			throw new MismatchedDimensionsException("Cannot subtract " + rhs.getTypeName() + " from "
 					+ lhs.getTypeName(), Axis.COLUMN, lcols, Axis.COLUMN, rcols);
 		Matrix res = Matrix.make(lrows, lcols);
 		for(int drow = 0; drow < lrows; ++drow) {
@@ -137,6 +137,16 @@ public class MatrixOps {
 		int[] p = new int[rows + 1];
 		MatrixOps.lupDecompose(a, p, failMessage);
 		return MatrixOps.lupInvert(a, p);
+	}
+
+	public static Matrix neg(Matrix matrix) {
+		int rows = notNull(matrix, "matrix").getRows(), cols = matrix.getColumns();
+		Matrix res = Matrix.make(rows, cols);
+		for(int row = 0; row < rows; ++row) {
+			for(int col = 0; col < cols; ++col)
+				res.setComponent(row, col, -matrix.getComponent(row, col));
+		}
+		return res;
 	}
 
 	public static double det(Matrix matrix) throws NonSquareMatrixException, DegenerateMatrixException {
