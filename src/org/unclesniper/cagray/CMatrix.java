@@ -4,6 +4,8 @@ import java.io.Writer;
 import java.io.IOException;
 import org.unclesniper.cagray.util.PrintUtils;
 
+import static org.unclesniper.util.ArgUtils.notNull;
+
 public class CMatrix extends AbstractMatrix {
 
 	private final double[] components;
@@ -92,8 +94,17 @@ public class CMatrix extends AbstractMatrix {
 	}
 
 	@Override
+	public boolean isZero() {
+		for(double c : components) {
+			if(c != 0.0)
+				return false;
+		}
+		return true;
+	}
+
+	@Override
 	public void printTo(Writer out, int level) throws IOException {
-		out.write("[[");
+		notNull(out, "out").write("[[");
 		int rows = components.length / columns;
 		for(int r = 0; r < rows; ++r) {
 			if(r > 0) {

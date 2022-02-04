@@ -28,4 +28,13 @@ public class VectorOps {
 		return Math.sqrt(accu);
 	}
 
+	public static double angleBetween(CVector lhs, CVector rhs)
+			throws ZeroVectorException, MismatchedDimensionsException {
+		if(notNull(lhs, "lhs").isZero())
+			throw new ZeroVectorException("Cannot take angle between vectors: Bad LHS");
+		if(notNull(rhs, "rhs").isZero())
+			throw new ZeroVectorException("Cannot take angle between vectors: Bad RHS");
+		return Math.acos(VectorOps.dot(lhs, rhs));
+	}
+
 }

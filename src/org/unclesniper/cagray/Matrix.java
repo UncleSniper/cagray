@@ -22,6 +22,8 @@ public interface Matrix extends CObject {
 
 	double det() throws MathException;
 
+	boolean isZero();
+
 	public static Matrix make(int rows, int columns) {
 		if(columns == 1)
 			return new CVector(rows, false);

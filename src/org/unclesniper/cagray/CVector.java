@@ -3,6 +3,8 @@ package org.unclesniper.cagray;
 import java.io.Writer;
 import java.io.IOException;
 
+import static org.unclesniper.util.ArgUtils.notNull;
+
 public class CVector extends AbstractMatrix {
 
 	private final double[] components;
@@ -118,8 +120,17 @@ public class CVector extends AbstractMatrix {
 	}
 
 	@Override
+	public boolean isZero() {
+		for(double c : components) {
+			if(c != 0.0)
+				return false;
+		}
+		return true;
+	}
+
+	@Override
 	public void printTo(Writer out, int level) throws IOException {
-		out.write('[');
+		notNull(out, "out").write('[');
 		for(int i = 0; i < components.length; ++i) {
 			if(i > 0)
 				out.write(", ");
