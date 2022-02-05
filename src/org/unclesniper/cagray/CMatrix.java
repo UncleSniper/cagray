@@ -2,7 +2,7 @@ package org.unclesniper.cagray;
 
 import java.io.Writer;
 import java.io.IOException;
-import org.unclesniper.cagray.util.PrintUtils;
+import org.unclesniper.util.IOUtils;
 
 import static org.unclesniper.util.ArgUtils.notNull;
 
@@ -109,7 +109,7 @@ public class CMatrix extends AbstractMatrix {
 		for(int r = 0; r < rows; ++r) {
 			if(r > 0) {
 				out.write(']');
-				PrintUtils.eolIndent(out, level);
+				IOUtils.eolIndent(out, level);
 				out.write(" [");
 			}
 			for(int c = 0; c < columns; ++c) {
